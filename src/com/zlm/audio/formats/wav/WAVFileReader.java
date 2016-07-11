@@ -17,14 +17,7 @@
 
 package com.zlm.audio.formats.wav;
 
-import java.io.File;
-
-import org.jaudiotagger.audio.AudioFile;
-import org.jaudiotagger.audio.AudioHeader;
-import org.jaudiotagger.audio.wav.WavFileReader;
-
 import android.media.AudioFormat;
-import android.media.MediaPlayer;
 
 import com.zlm.audio.AudioFileReader;
 import com.zlm.audio.model.AudioInfo;
@@ -40,31 +33,26 @@ public class WAVFileReader extends AudioFileReader {
 	protected AudioInfo readSingle(AudioInfo audioInfo) {
 		try {
 
-			org.jaudiotagger.audio.wav.WavFileReader fileReader = new WavFileReader();
-			AudioFile audioFile = fileReader.read(new File(audioInfo
-					.getFilePath()));
-			AudioHeader audioHeader = audioFile.getAudioHeader();
+			BaseWAVFileReader fileReader = new BaseWAVFileReader();
+			fileReader.openFile(audioInfo.getFilePath());
+			WavFileHeader audioHeader = fileReader.getmWavFileHeader();
 
-			audioInfo.setChannels(Integer.parseInt(audioHeader.getChannels()));
+			audioInfo.setChannels(audioHeader.mNumChannel);
 			int frameSize = audioInfo.getChannels()
 					* AudioFormat.ENCODING_PCM_16BIT;
 			audioInfo.setFrameSize(frameSize);
-			audioInfo.setSampleRate(audioHeader.getSampleRateAsNumber());
+			audioInfo.setSampleRate(audioHeader.mSampleRate);
 
-			// 这里通过MediaPlayer获取totalSamples
-			MediaPlayer mediaPlayer = new MediaPlayer();
-			mediaPlayer.setDataSource(audioInfo.getFilePath());
-			mediaPlayer.prepare();
-			long duration = mediaPlayer.getDuration();
+			long duration = Math.round(audioHeader.mSubChunk2Size
+					/ (audioHeader.mBiteRate * 1.0 / 10));
 			int totalSamples = (int) AudioMathUtil.millisToSamples(duration,
 					audioInfo.getSampleRate());
 			audioInfo.setTotalSamples(totalSamples);
-			mediaPlayer.release();
 
 			//
 			audioInfo.setPlayedProgress(0);
 			audioInfo.setCodec(getFileExt(audioInfo.getFilePath()));
-			audioInfo.setBitrate((int) audioHeader.getBitRateAsNumber());
+			audioInfo.setBitrate(audioHeader.mBiteRate);
 
 			return audioInfo;
 		} catch (Exception e) {
