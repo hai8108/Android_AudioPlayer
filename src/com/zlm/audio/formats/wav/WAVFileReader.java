@@ -21,7 +21,6 @@ import android.media.AudioFormat;
 
 import com.zlm.audio.AudioFileReader;
 import com.zlm.audio.model.AudioInfo;
-import com.zlm.audio.util.AudioMathUtil;
 
 /**
  * @Author: Denis Tulskiy
@@ -43,10 +42,9 @@ public class WAVFileReader extends AudioFileReader {
 			audioInfo.setFrameSize(frameSize);
 			audioInfo.setSampleRate(audioHeader.mSampleRate);
 
-			long duration = Math.round(audioHeader.mSubChunk2Size
-					/ (audioHeader.mBiteRate * 1.0 / 10));
-			int totalSamples = (int) AudioMathUtil.millisToSamples(duration,
-					audioInfo.getSampleRate());
+			long totalSamples = Math.round(audioHeader.mSubChunk2Size * 8
+					* 1.00
+					/ (audioHeader.mNumChannel * audioHeader.mBitsPerSample));
 			audioInfo.setTotalSamples(totalSamples);
 
 			//

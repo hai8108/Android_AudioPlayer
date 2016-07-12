@@ -81,59 +81,62 @@ public class BaseWAVFileReader {
 
 			mDataInputStream.read(intValue);
 			header.mChunkSize = byteArrayToInt(intValue);
-			System.out.println("Read file chunkSize:" + header.mChunkSize);
+			// System.out.println("Read file chunkSize:" + header.mChunkSize);
 
 			header.mFormat = "" + (char) mDataInputStream.readByte()
 					+ (char) mDataInputStream.readByte()
 					+ (char) mDataInputStream.readByte()
 					+ (char) mDataInputStream.readByte();
-			System.out.println("Read file format:" + header.mFormat);
+			// System.out.println("Read file format:" + header.mFormat);
 
 			header.mSubChunk1ID = "" + (char) mDataInputStream.readByte()
 					+ (char) mDataInputStream.readByte()
 					+ (char) mDataInputStream.readByte()
 					+ (char) mDataInputStream.readByte();
-			System.out.println("Read fmt chunkID:" + header.mSubChunk1ID);
+			// System.out.println("Read fmt chunkID:" + header.mSubChunk1ID);
 
 			mDataInputStream.read(intValue);
 			header.mSubChunk1Size = byteArrayToInt(intValue);
-			System.out.println("Read fmt chunkSize:" + header.mSubChunk1Size);
+			// System.out.println("Read fmt chunkSize:" +
+			// header.mSubChunk1Size);
 
 			mDataInputStream.read(shortValue);
 			header.mAudioFormat = byteArrayToShort(shortValue);
-			System.out.println("Read audioFormat:" + header.mAudioFormat);
+			// System.out.println("Read audioFormat:" + header.mAudioFormat);
 
 			mDataInputStream.read(shortValue);
 			header.mNumChannel = byteArrayToShort(shortValue);
-			System.out.println("Read channel number:" + header.mNumChannel);
+			// System.out.println("Read channel number:" + header.mNumChannel);
 
 			mDataInputStream.read(intValue);
 			header.mSampleRate = byteArrayToInt(intValue);
-			System.out.println("Read samplerate:" + header.mSampleRate);
+			// System.out.println("Read samplerate:" + header.mSampleRate);
 
 			mDataInputStream.read(intValue);
 			header.mBiteRate = byteArrayToInt(intValue) / 100;
-			System.out.println("Read byterate:" + header.mBiteRate);
+			// System.out.println("Read byterate:" + header.mBiteRate);
 
 			mDataInputStream.read(shortValue);
 			header.mBlockAlign = byteArrayToShort(shortValue);
-			System.out.println("Read blockalign:" + header.mBlockAlign);
+			// System.out.println("Read blockalign:" + header.mBlockAlign);
 
 			mDataInputStream.read(shortValue);
 			header.mBitsPerSample = byteArrayToShort(shortValue);
-			System.out.println("Read bitspersample:" + header.mBitsPerSample);
+			// System.out.println("Read bitspersample:" +
+			// header.mBitsPerSample);
 
 			header.mSubChunk2ID = "" + (char) mDataInputStream.readByte()
 					+ (char) mDataInputStream.readByte()
 					+ (char) mDataInputStream.readByte()
 					+ (char) mDataInputStream.readByte();
-			System.out.println("Read data chunkID:" + header.mSubChunk2ID);
+			// System.out.println("Read data chunkID:" + header.mSubChunk2ID);
 
 			mDataInputStream.read(intValue);
 			header.mSubChunk2Size = byteArrayToInt(intValue);
-			System.out.println("Read data chunkSize:" + header.mSubChunk2Size);
+			// System.out.println("Read data chunkSize:" +
+			// header.mSubChunk2Size);
 
-			System.out.println("Read wav file success !");
+			// System.out.println("Read wav file success !");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;

@@ -54,7 +54,7 @@ public class BasePlayer {
 		int minBufSize = AudioTrack.getMinBufferSize(mFrequency, mChannel,
 				mSampBit);
 		mAudioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, mFrequency,
-				mChannel, mSampBit, minBufSize, AudioTrack.MODE_STREAM);
+				mChannel, mSampBit, minBufSize * 2, AudioTrack.MODE_STREAM);
 
 		long samples = audioInfo.getTotalSamples();
 		totalFrameBytes = AudioMathUtil.samplesToBytes(samples,
