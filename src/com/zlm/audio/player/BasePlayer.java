@@ -45,7 +45,6 @@ public class BasePlayer {
 		boolean flag = decoder.open(audioInfo);
 		if (!flag)
 			return;
-
 		//
 		int mFrequency = audioInfo.getSampleRate();
 		int mChannel = AudioFormat.CHANNEL_CONFIGURATION_STEREO;
